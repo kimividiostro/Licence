@@ -4,7 +4,7 @@ export interface Licence {
   // numbers are used as ids for simplicity
   id: number;
   type: LicenceType;
-  numberOfCustomersAllowed: number;
+  numberOfCustomersAllowed?: number;
   numberOfCustomersSpent: number;
   activationDate: Date;
   expirationDate: Date;
