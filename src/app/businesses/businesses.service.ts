@@ -18,7 +18,6 @@ export class BusinessesService {
     let licence2: Licence = {
       id: 2,
       type: LicenceType.TimeBased,
-      numberOfCustomersAllowed: 10,
       numberOfCustomersSpent: 0,
       activationDate: new Date(),
       expirationDate: new Date(),

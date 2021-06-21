@@ -8,6 +8,7 @@ import { BusinessesService } from 'src/app/businesses/businesses.service';
   styleUrls: ['./businesses.component.css'],
 })
 export class BusinessesComponent implements OnInit {
+  // TODO: pretvoriti u property
   public businesses: Business[];
 
   // dependency injection

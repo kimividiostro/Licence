@@ -1,3 +1,4 @@
-<p>businesses works!</p>
-
-<p>"{{ businesses[0].id }}"</p>
+<h2>{{ businesses.length }} Businesses</h2>
+<div *ngFor="let business of businesses">
+  <business [businessName]="business.name"></business>
+</div>
