@@ -9,20 +9,11 @@ import { LicenceStatus, LicenceType } from 'src/models/licence-enums';
 })
 export class LicenceDisplayComponent implements OnInit {
 
-  public selectedLicence: Licence;
+  public selectedLicence!: Licence;
+  public licenceSelected?: boolean;
 
   constructor() {
-    this.selectedLicence = {
-       id: 0,
-       activationDate: new Date(),
-       businessID: 0,
-       expirationDate: new Date(),
-       numberOfCustomersSpent: 0,
-       status: LicenceStatus.Inactive,
-       totalAmount: 0,
-       type: LicenceType.NumberBased,
-       numberOfCustomersAllowed:1
-    }
+    this.licenceSelected = false;
    }
 
   ngOnInit(): void {

@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Business } from 'src/models/business';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Business } from 'src/models/business';  
 
 @Component({
   selector: 'business',
@@ -7,10 +7,14 @@ import { Business } from 'src/models/business';
   styleUrls: ['./business.component.css']
 })
 export class BusinessComponent implements OnInit {
-  @Input() businessName:string;
-  
+  @Input() business!:Business;
+  @Output() businessSelected: EventEmitter<number>  = new EventEmitter();
+
+  onBusinessSelected(): void {
+    this.businessSelected.emit(this.business.id);
+  }
+
   constructor() { 
-    this.businessName = "";
   }
 
   ngOnInit(): void {

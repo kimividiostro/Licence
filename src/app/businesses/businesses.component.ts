@@ -11,9 +11,15 @@ export class BusinessesComponent implements OnInit {
   // TODO: pretvoriti u property
   public businesses: Business[];
 
+  public selectedBusinessId?: number;
+
   // dependency injection
   constructor(service: BusinessesService) {
     this.businesses = service.getBusinesses();
+  }
+
+  businessSelectedHandler(businessId: number){
+    this.selectedBusinessId = businessId;
   }
 
   ngOnInit(): void {}
