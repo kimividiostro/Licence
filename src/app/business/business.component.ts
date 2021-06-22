@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Business } from 'src/models/business';  
+import { BusinessesService } from '../businesses/businesses.service';
 
 @Component({
   selector: 'business',
@@ -12,9 +13,10 @@ export class BusinessComponent implements OnInit {
 
   onBusinessSelected(): void {
     this.businessSelected.emit(this.business.id);
+    this.service.businessSelected.emit(this.business.id);
   }
 
-  constructor() { 
+  constructor(private service: BusinessesService) { 
   }
 
   ngOnInit(): void {

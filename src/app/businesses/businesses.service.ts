@@ -1,9 +1,24 @@
+import {EventEmitter} from '@angular/core'
 import { Business } from 'src/models/business';
 import { Licence } from 'src/models/licence';
 import { LicenceType, LicenceStatus } from 'src/models/licence-enums';
 
 export class BusinessesService {
-  getBusinesses(): Business[] {
+  businesses!: Business[];
+  selectedBusinessId?: number;
+
+  businessSelected!: EventEmitter<number>;
+
+  constructor(){
+    this.businessSelected = new EventEmitter();
+    this.getBusinesses();
+  }
+
+  public selectBussines(id:number):void{
+    this.selectedBusinessId = id;
+  }
+
+  private getBusinesses(): void {
     let licence1: Licence = {
       id: 1,
       type: LicenceType.NumberBased,
@@ -37,6 +52,8 @@ export class BusinessesService {
       name: 'Business2',
     };
 
-    return [business1, business2];
+    this.businesses = [business1, business2];
   }
+
+
 }

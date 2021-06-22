@@ -14,12 +14,13 @@ export class BusinessesComponent implements OnInit {
   public selectedBusinessId?: number;
 
   // dependency injection
-  constructor(service: BusinessesService) {
-    this.businesses = service.getBusinesses();
+  constructor(private service: BusinessesService) {
+    this.businesses = service.businesses;
   }
 
   businessSelectedHandler(businessId: number){
     this.selectedBusinessId = businessId;
+    this.service.selectBussines(businessId);
   }
 
   ngOnInit(): void {}
