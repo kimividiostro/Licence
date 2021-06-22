@@ -5,11 +5,11 @@
     Number of customers allowed: {{ selectedLicence.numberOfCustomersAllowed }}
   </p>
   <p>Number of customers spent: {{ selectedLicence.numberOfCustomersSpent }}</p>
-  <p>
+  <p *ngIf="selectedLicence.activationDate">
     Licence activation date:
     {{ selectedLicence.activationDate | date: "dd.MM.yyyy" }}
   </p>
-  <p>
+  <p *ngIf="selectedLicence.expirationDate">
     Licence expiration date:
     {{ selectedLicence.expirationDate | date: "dd.MM.yyyy" }}
   </p>
