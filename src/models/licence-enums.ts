@@ -1,11 +1,11 @@
 export enum LicenceType {
-  TimeBased,
-  NumberBased,
+  TimeBased = "Time Based",
+  NumberBased = "Number Based",
 }
 
 export enum LicenceStatus {
-  Active,
-  Expired,
-  Overdraft,
-  Inactive,
+  Active = "Active",
+  Expired = "Expired",
+  Overdraft = "Overdraft",
+  Inactive = "Inactive",
 }
