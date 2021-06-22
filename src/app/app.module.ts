@@ -7,9 +7,10 @@ import { BusinessesComponent } from './businesses/businesses.component';
 import { BusinessesService } from './businesses/businesses.service';
 import { BusinessComponent } from './business/business.component';
 import { LicenceDisplayComponent } from './licence-display/licence-display.component';
+import { CustomerInputComponent } from './customer-input/customer-input.component';
 
 @NgModule({
-  declarations: [AppComponent, BusinessesComponent, BusinessComponent, LicenceDisplayComponent],
+  declarations: [AppComponent, BusinessesComponent, BusinessComponent, LicenceDisplayComponent, CustomerInputComponent],
   imports: [BrowserModule, AppRoutingModule],
   providers: [BusinessesService],
   bootstrap: [AppComponent],
