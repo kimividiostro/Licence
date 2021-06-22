@@ -8,10 +8,11 @@ import { BusinessesService } from './businesses/businesses.service';
 import { BusinessComponent } from './business/business.component';
 import { LicenceDisplayComponent } from './licence-display/licence-display.component';
 import { CustomerInputComponent } from './customer-input/customer-input.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [AppComponent, BusinessesComponent, BusinessComponent, LicenceDisplayComponent, CustomerInputComponent],
-  imports: [BrowserModule, AppRoutingModule],
+  imports: [BrowserModule, AppRoutingModule, FormsModule],
   providers: [BusinessesService],
   bootstrap: [AppComponent],
 })

@@ -1,13 +1,19 @@
 <div *ngIf="licenceSelected">
-  <p>id: {{ selectedLicence.id }}</p>
-  <p>type: {{ selectedLicence.type }}</p>
-  <p>
-    numberOfCustomersAllowed?: {{ selectedLicence.numberOfCustomersAllowed }}
+  <p>Licence ID: {{ selectedLicence.id }}</p>
+  <p>Licence type: {{ selectedLicence.type }}</p>
+  <p *ngIf="selectedLicence.numberOfCustomersAllowed">
+    Number of customers allowed: {{ selectedLicence.numberOfCustomersAllowed }}
   </p>
-  <p>numberOfCustomersSpent: {{ selectedLicence.numberOfCustomersSpent }}</p>
-  <p>activationDate: {{ selectedLicence.activationDate }}</p>
-  <p>expirationDate: {{ selectedLicence.expirationDate }}</p>
-  <p>totalAmount: {{ selectedLicence.totalAmount }}</p>
-  <p>status: {{ selectedLicence.status }}</p>
-  <p>businessID: {{ selectedLicence.businessID }}</p>
+  <p>Number of customers spent: {{ selectedLicence.numberOfCustomersSpent }}</p>
+  <p>
+    Licence activation date:
+    {{ selectedLicence.activationDate | date: "dd.MM.yyyy" }}
+  </p>
+  <p>
+    Licence expiration date:
+    {{ selectedLicence.expirationDate | date: "dd.MM.yyyy" }}
+  </p>
+  <p>Total amount: € {{ selectedLicence.totalAmount }}</p>
+  <p>Licence status: {{ selectedLicence.status }}</p>
+  <p>Business ID: {{ selectedLicence.businessID }}</p>
 </div>

@@ -1,4 +1,5 @@
 <div *ngIf="visible">
-  <input type="text" />
-  <button>Add customer</button>
+  <input type="number" min="1" [(ngModel)]="inputValue" />
+  <button (click)="onCustomerInput()">+</button>
+  <p style="color: red" *ngIf="displayWarning">Invalid input</p>
 </div>
