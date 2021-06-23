@@ -7,6 +7,9 @@ import { LicenceType, LicenceStatus } from 'src/models/licence-enums';
 export class BusinessesService {
   businesses!: Business[];
   selectedBusinessId?: number;
+  private regularPrice = 1;
+  private penaltyPrice = 2;
+
 
   businessSelected!: EventEmitter<number>;
 
@@ -20,25 +23,44 @@ export class BusinessesService {
     licence!.type === LicenceType.NumberBased ? this.addCustomersToNumberBasedLicence(customersToAdd, licence) : this.addCustomersToTimeBasedLicence(customersToAdd,licence);
   }
   private addCustomersToTimeBasedLicence(customersToAdd: number, licence: Licence) {
-      let pricePerNewCustomer = (licence.status === LicenceStatus.Expired) ? 2 : 1;
+      let pricePerNewCustomer = (licence.status === LicenceStatus.Expired) ? this.penaltyPrice : this.regularPrice;
 
       licence.totalAmount += pricePerNewCustomer * customersToAdd;
+      licence.numberOfCustomersSpent! += customersToAdd;
   }
   private addCustomersToNumberBasedLicence(customersToAdd: number, licence: Licence) {
-
+    if(licence.status === LicenceStatus.Overdraft || (licence.numberOfCustomersAllowed! === licence.numberOfCustomersSpent)){
+      // Vec je prekoracen dozvoljeni broj pretplatnika ili je tacno popunjen kapacitet tako da ce svi biti naplaceni skuplje
+      licence.totalAmount += this.penaltyPrice * customersToAdd;
+      licence.numberOfCustomersSpent! += customersToAdd;
+      return;
+    }
+    if((licence.numberOfCustomersSpent! + customersToAdd) > licence.numberOfCustomersAllowed!){ // Doci ce do prekoracenja dozvoljenog broja pretplatnika
+      let numberOfPenatlies = (licence.numberOfCustomersSpent! + customersToAdd) - licence.numberOfCustomersAllowed!;
+      let numberOfRegularCustomers = customersToAdd - numberOfPenatlies;
+      licence.totalAmount += (numberOfPenatlies * this.penaltyPrice + numberOfRegularCustomers * this.regularPrice);
+      licence.numberOfCustomersSpent! += customersToAdd;
+      licence.status = LicenceStatus.Overdraft;
+      return;
+    }
+    licence.totalAmount += this.regularPrice * customersToAdd;
+    licence.numberOfCustomersSpent! += customersToAdd;
   }
+
 
   private updateLicenceStatus(){
     for(let business of this.businesses){
-      let m1 = moment(business.licence.activationDate);
-      let m2 = moment(business.licence.expirationDate);
-      business.licence.status = m1.diff(m2, 'days') >= 0 ? LicenceStatus.Expired : LicenceStatus.Active;
-
-      // 
-      if(business.licence.status === LicenceStatus.Active && business.licence.type === LicenceType.NumberBased){
-
-      }
+      business.licence.type === LicenceType.TimeBased ? this.updateTimeBasedLicence(business.licence) : this.updateNumberBasedLicence(business.licence)
     }
+  }
+
+  private updateTimeBasedLicence(licence: Licence){
+    let m1 = moment(); // Danasnji datum
+    let m2 = moment(licence.expirationDate);
+    licence.status = m1.diff(m2, 'days') >= 0 ? LicenceStatus.Expired : LicenceStatus.Active;
+  }
+  private updateNumberBasedLicence(licence: Licence){
+    licence.status =  licence.numberOfCustomersSpent! > licence.numberOfCustomersAllowed! ? LicenceStatus.Overdraft :  LicenceStatus.Active;  
   }
 
   public selectBussines(id:number):void{
@@ -52,7 +74,7 @@ export class BusinessesService {
       type: LicenceType.NumberBased,
       numberOfCustomersAllowed: 10,
       numberOfCustomersSpent: 3,
-      totalAmount: 0,
+      totalAmount: 3,
       status: LicenceStatus.Inactive,
       businessID: 1,
     };
@@ -60,9 +82,9 @@ export class BusinessesService {
       id: 2,
       type: LicenceType.TimeBased,
       numberOfCustomersSpent: 6,
-      activationDate: new Date(),
-      expirationDate: new Date(),
-      totalAmount: 0,
+      activationDate: new Date(2021,0,1),
+      expirationDate: new Date(2022,0,1),
+      totalAmount: 6,
       status: LicenceStatus.Inactive,
       businessID: 2,
     };
@@ -71,7 +93,7 @@ export class BusinessesService {
       type: LicenceType.NumberBased,
       numberOfCustomersAllowed: 10,
       numberOfCustomersSpent: 11,
-      totalAmount: 0,
+      totalAmount: 12,
       status: LicenceStatus.Inactive,
       businessID: 3,
     };
@@ -79,9 +101,9 @@ export class BusinessesService {
       id: 4,
       type: LicenceType.TimeBased,
       numberOfCustomersSpent: 4,
-      activationDate: new Date(),
-      expirationDate: new Date(),
-      totalAmount: 0,
+      activationDate: new Date(2020,0,1),
+      expirationDate: new Date(2021,0,1),
+      totalAmount: 4,
       status: LicenceStatus.Inactive,
       businessID: 4,
     };
@@ -107,7 +129,7 @@ export class BusinessesService {
     };
     this.businesses = [business1, business2, business3, business4];
 
-    // Recimo da licence stizu sa statusom inactive sa backend-a i da frontend azurira status
+    // Demonstracije radi, sa backend-a stizu licence sa statusom INACTIVE pa frontend proverava
     this.updateLicenceStatus();
   }
 

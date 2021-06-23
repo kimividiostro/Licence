@@ -26,14 +26,6 @@ export class CustomerInputComponent implements OnInit {
       setTimeout(() => this.displayWarning = false, 1000)
     }
     else{
-      // console.log("is number");
-      // let d1 = new Date();
-      // let d2 = new Date();
-      // d2.setDate(23);
-      // d2.setMonth(5);
-      // let m1 = moment(d1);
-      // let m2 = moment(d2);
-      // console.log(m1.diff(m2,'days'));
       this.service.addCustomersToLicence(this.inputValue);
     }
   }

@@ -5,7 +5,7 @@ export interface Licence {
   id: number;
   type: LicenceType;
   numberOfCustomersAllowed?: number;
-  numberOfCustomersSpent: number;
+  numberOfCustomersSpent?: number;
   activationDate?: Date;
   expirationDate?: Date;
   totalAmount: number;
