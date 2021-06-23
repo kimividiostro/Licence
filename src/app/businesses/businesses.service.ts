@@ -21,7 +21,25 @@ export class BusinessesService {
 
   public addCustomersToLicence(customersToAdd: number){
     let licence = (this.businesses.find((business) => business.id === this.selectedBusinessId))!.licence;
+    if(licence.status === LicenceStatus.Inactive){
+      this.addCustomerToInactiveLicence(customersToAdd, licence);
+      return;
+    }
     licence!.type === LicenceType.NumberBased ? this.addCustomersToNumberBasedLicence(customersToAdd, licence) : this.addCustomersToTimeBasedLicence(customersToAdd,licence);
+  }
+  private addCustomerToInactiveLicence(customersToAdd: number, licence: Licence){
+    licence.type === LicenceType.NumberBased ? this.addCustomerToInactiveNumberBasedLicence(customersToAdd, licence) : this.addCustomerToInactiveTimeBasedLicence(customersToAdd, licence);
+  }
+  private addCustomerToInactiveTimeBasedLicence(customersToAdd: number, licence: Licence){
+    licence.status = LicenceStatus.Active;
+    let today = moment();
+    licence.activationDate = new Date(today.year(), today.month(), today.date());
+    licence.expirationDate = new Date((today.year()+1), today.month(), today.date());
+    this.addCustomersToTimeBasedLicence(customersToAdd, licence);
+  }
+  private addCustomerToInactiveNumberBasedLicence(customersToAdd: number, licence: Licence){
+    licence.status = LicenceStatus.Active;
+    this.addCustomersToNumberBasedLicence(customersToAdd, licence);
   }
   private addCustomersToTimeBasedLicence(customersToAdd: number, licence: Licence) {
       let pricePerNewCustomer = (licence.status === LicenceStatus.Expired) ? this.penaltyPrice : this.regularPrice;
@@ -34,6 +52,7 @@ export class BusinessesService {
       // Vec je prekoracen dozvoljeni broj pretplatnika ili je tacno popunjen kapacitet tako da ce svi biti naplaceni skuplje
       licence.totalAmount += this.penaltyPrice * customersToAdd;
       licence.numberOfCustomersSpent! += customersToAdd;
+      licence.status = LicenceStatus.Overdraft;
       return;
     }
     if((licence.numberOfCustomersSpent! + customersToAdd) > licence.numberOfCustomersAllowed!){ // Doci ce do prekoracenja dozvoljenog broja pretplatnika
