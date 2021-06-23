@@ -1,8 +1,9 @@
-<h2>{{ businesses.length }} Businesses</h2>
-<h3>Selected business: {{ selectedBusinessId }}</h3>
-<div *ngFor="let business of businesses">
-  <business
-    [business]="business"
-    (businessSelected)="businessSelectedHandler($event)"
-  ></business>
+<div>
+  <h2>{{ businesses.length }} Businesses</h2>
+  <div *ngFor="let business of businesses">
+    <business
+      [business]="business"
+      (businessSelected)="businessSelectedHandler($event)"
+    ></business>
+  </div>
 </div>

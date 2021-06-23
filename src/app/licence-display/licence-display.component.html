@@ -1,19 +1,61 @@
 <div *ngIf="licenceSelected">
-  <p>Licence ID: {{ selectedLicence.id }}</p>
-  <p>Licence type: {{ selectedLicence.type }}</p>
-  <p *ngIf="selectedLicence.numberOfCustomersAllowed">
-    Number of customers allowed: {{ selectedLicence.numberOfCustomersAllowed }}
-  </p>
-  <p>Number of customers spent: {{ selectedLicence.numberOfCustomersSpent }}</p>
-  <p *ngIf="selectedLicence.activationDate">
-    Licence activation date:
-    {{ selectedLicence.activationDate | date: "dd.MM.yyyy" }}
-  </p>
-  <p *ngIf="selectedLicence.expirationDate">
-    Licence expiration date:
-    {{ selectedLicence.expirationDate | date: "dd.MM.yyyy" }}
-  </p>
-  <p>Total amount: € {{ selectedLicence.totalAmount }}</p>
-  <p>Licence status: {{ selectedLicence.status }}</p>
-  <p>Business ID: {{ selectedLicence.businessID }}</p>
+  <table>
+    <tr>
+      <td>
+        <p>Business: {{ selectedBusinessName }}</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>Licence ID: {{ selectedLicence.id }}</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>Licence type: {{ selectedLicence.type }}</p>
+      </td>
+    </tr>
+    <tr *ngIf="selectedLicence.numberOfCustomersAllowed">
+      <td>
+        <p>
+          Number of customers allowed:
+          {{ selectedLicence.numberOfCustomersAllowed }}
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>
+          Number of customers spent:
+          {{ selectedLicence.numberOfCustomersSpent }}
+        </p>
+      </td>
+    </tr>
+    <tr *ngIf="selectedLicence.activationDate">
+      <td>
+        <p>
+          Licence activation date:
+          {{ selectedLicence.activationDate | date: "dd.MM.yyyy" }}
+        </p>
+      </td>
+    </tr>
+    <tr *ngIf="selectedLicence.expirationDate">
+      <td>
+        <p>
+          Licence expiration date:
+          {{ selectedLicence.expirationDate | date: "dd.MM.yyyy" }}
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>Licence status: {{ selectedLicence.status }}</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p id="total">Total amount: € {{ selectedLicence.totalAmount }}</p>
+      </td>
+    </tr>
+  </table>
 </div>

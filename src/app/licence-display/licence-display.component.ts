@@ -9,8 +9,9 @@ import { BusinessesService } from '../businesses/businesses.service';
 })
 export class LicenceDisplayComponent implements OnInit {
 
-  public selectedLicence!: Licence;
-  public licenceSelected: boolean;
+  selectedLicence!: Licence;
+  licenceSelected: boolean;
+  selectedBusinessName!: string;
   
   constructor(private service: BusinessesService) {
     this.licenceSelected = false;
@@ -19,7 +20,9 @@ export class LicenceDisplayComponent implements OnInit {
   ngOnInit(): void {
     this.service.businessSelected.subscribe((id: number) => {
       this.selectedLicence = (this.service.businesses.find(business => business.id === id)!.licence);
-      this.licenceSelected = true});
+      this.licenceSelected = true;
+      this.selectedBusinessName = (this.service.businesses.find(business => business.id === this.selectedLicence.businessID))!.name;});
+      
   }
 
 }

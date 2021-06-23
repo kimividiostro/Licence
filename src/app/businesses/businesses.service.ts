@@ -3,6 +3,7 @@ import * as moment from 'moment';
 import { Business } from 'src/models/business';
 import { Licence } from 'src/models/licence';
 import { LicenceType, LicenceStatus } from 'src/models/licence-enums';
+import { BusinessesComponent } from './businesses.component';
 
 export class BusinessesService {
   businesses!: Business[];

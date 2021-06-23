@@ -1,0 +1,10 @@
+#total {
+  font-weight: bold;
+}
+
+table,
+td {
+  border: 3px solid black;
+  margin: 2rem;
+  padding: 0.5rem;
+}

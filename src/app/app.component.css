@@ -1,0 +1,10 @@
+#main-div {
+  display: grid;
+  justify-content: center;
+}
+
+#licence-control {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+}
