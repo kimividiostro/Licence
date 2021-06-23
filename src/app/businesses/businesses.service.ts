@@ -3,7 +3,6 @@ import * as moment from 'moment';
 import { Business } from 'src/models/business';
 import { Licence } from 'src/models/licence';
 import { LicenceType, LicenceStatus } from 'src/models/licence-enums';
-import { BusinessesComponent } from './businesses.component';
 
 export class BusinessesService {
   businesses!: Business[];
@@ -11,6 +10,7 @@ export class BusinessesService {
   private regularPrice = 1;
   private penaltyPrice = 2;
 
+  private maxLicenceId = 4; // Ponovo, demonstracije radi, zamisljamo da frontend radi posao backend-a. Pri "vracanju iz baze" najveci id licence je 4
 
   businessSelected!: EventEmitter<number>;
 
@@ -46,6 +46,26 @@ export class BusinessesService {
     }
     licence.totalAmount += this.regularPrice * customersToAdd;
     licence.numberOfCustomersSpent! += customersToAdd;
+  }
+
+  renewSelectedLicence(){
+    let licence = (this.businesses.find((business) => business.id === this.selectedBusinessId))!.licence;
+    licence.type === LicenceType.NumberBased ? this.renewNumberBasedLicence(licence) : this.renewTimeBasedLicence(licence);
+  }
+
+  private renewNumberBasedLicence(licence: Licence){
+    licence.id = ++this.maxLicenceId;
+    licence.numberOfCustomersSpent = 0;
+    licence.totalAmount = 0;
+    licence.status = LicenceStatus.Inactive;
+  }
+  private renewTimeBasedLicence(licence: Licence){
+    licence.id = ++this.maxLicenceId;
+    licence.numberOfCustomersSpent = 0;
+    delete licence.activationDate;
+    delete licence.expirationDate;
+    licence.totalAmount = 0;
+    licence.status = LicenceStatus.Inactive;
   }
 
 

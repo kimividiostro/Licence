@@ -9,9 +9,10 @@ import { BusinessComponent } from './business/business.component';
 import { LicenceDisplayComponent } from './licence-display/licence-display.component';
 import { CustomerInputComponent } from './customer-input/customer-input.component';
 import { FormsModule } from '@angular/forms';
+import { LicenceRenewComponent } from './licence-renew/licence-renew.component';
 
 @NgModule({
-  declarations: [AppComponent, BusinessesComponent, BusinessComponent, LicenceDisplayComponent, CustomerInputComponent],
+  declarations: [AppComponent, BusinessesComponent, BusinessComponent, LicenceDisplayComponent, CustomerInputComponent, LicenceRenewComponent],
   imports: [BrowserModule, AppRoutingModule, FormsModule],
   providers: [BusinessesService],
   bootstrap: [AppComponent],
