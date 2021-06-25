@@ -6,6 +6,7 @@ import { LicenceType, LicenceStatus } from 'src/models/licence-enums';
 
 export class BusinessesService {
   businesses!: Business[];
+  selectedBusiness!: Business;
   selectedBusinessId?: number;
   private regularPrice = 1;
   private penaltyPrice = 2;
@@ -20,7 +21,7 @@ export class BusinessesService {
   }
 
   public addCustomersToLicence(customersToAdd: number){
-    let licence = (this.businesses.find((business) => business.id === this.selectedBusinessId))!.licence;
+    const licence = this.selectedBusiness.licence;
     if(licence.status === LicenceStatus.Inactive){
       this.addCustomerToInactiveLicence(customersToAdd, licence);
       return;
@@ -32,7 +33,7 @@ export class BusinessesService {
   }
   private addCustomerToInactiveTimeBasedLicence(customersToAdd: number, licence: Licence){
     licence.status = LicenceStatus.Active;
-    let today = moment();
+    const today = moment();
     licence.activationDate = new Date(today.year(), today.month(), today.date());
     licence.expirationDate = new Date((today.year()+1), today.month(), today.date());
     this.addCustomersToTimeBasedLicence(customersToAdd, licence);
@@ -42,7 +43,7 @@ export class BusinessesService {
     this.addCustomersToNumberBasedLicence(customersToAdd, licence);
   }
   private addCustomersToTimeBasedLicence(customersToAdd: number, licence: Licence) {
-      let pricePerNewCustomer = (licence.status === LicenceStatus.Expired) ? this.penaltyPrice : this.regularPrice;
+      const pricePerNewCustomer = (licence.status === LicenceStatus.Expired) ? this.penaltyPrice : this.regularPrice;
 
       licence.totalAmount += pricePerNewCustomer * customersToAdd;
       licence.numberOfCustomersSpent! += customersToAdd;
@@ -56,8 +57,8 @@ export class BusinessesService {
       return;
     }
     if((licence.numberOfCustomersSpent! + customersToAdd) > licence.numberOfCustomersAllowed!){ // Doci ce do prekoracenja dozvoljenog broja pretplatnika
-      let numberOfPenatlies = (licence.numberOfCustomersSpent! + customersToAdd) - licence.numberOfCustomersAllowed!;
-      let numberOfRegularCustomers = customersToAdd - numberOfPenatlies;
+      const numberOfPenatlies = (licence.numberOfCustomersSpent! + customersToAdd) - licence.numberOfCustomersAllowed!;
+      const numberOfRegularCustomers = customersToAdd - numberOfPenatlies;
       licence.totalAmount += (numberOfPenatlies * this.penaltyPrice + numberOfRegularCustomers * this.regularPrice);
       licence.numberOfCustomersSpent! += customersToAdd;
       licence.status = LicenceStatus.Overdraft;
@@ -68,7 +69,7 @@ export class BusinessesService {
   }
 
   renewSelectedLicence(){
-    let licence = (this.businesses.find((business) => business.id === this.selectedBusinessId))!.licence;
+    const licence = this.selectedBusiness.licence;
     licence.type === LicenceType.NumberBased ? this.renewNumberBasedLicence(licence) : this.renewTimeBasedLicence(licence);
   }
 
@@ -95,8 +96,8 @@ export class BusinessesService {
   }
 
   private updateTimeBasedLicence(licence: Licence){
-    let m1 = moment(); // Danasnji datum
-    let m2 = moment(licence.expirationDate);
+    const m1 = moment(); // Danasnji datum
+    const m2 = moment(licence.expirationDate);
     licence.status = m1.diff(m2, 'days') >= 0 ? LicenceStatus.Expired : LicenceStatus.Active;
   }
   private updateNumberBasedLicence(licence: Licence){
@@ -105,7 +106,8 @@ export class BusinessesService {
 
   public selectBussines(id:number):void{
     this.selectedBusinessId = id;
-    this.businessSelected.emit(id);
+    this.selectedBusiness = this.businesses.find(business => business.id === id)!;
+    this.businessSelected.emit();
   }
 
   // Simulira citanje iz baze

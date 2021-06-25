@@ -18,11 +18,10 @@ export class LicenceDisplayComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.service.businessSelected.subscribe((id: number) => {
-      this.selectedLicence = (this.service.businesses.find(business => business.id === id)!.licence);
+    this.service.businessSelected.subscribe(() => {
+      this.selectedLicence = this.service.selectedBusiness.licence;
       this.licenceSelected = true;
-      this.selectedBusinessName = (this.service.businesses.find(business => business.id === this.selectedLicence.businessID))!.name;});
-      
+      this.selectedBusinessName = this.service.selectedBusiness.name});
   }
 
 }
