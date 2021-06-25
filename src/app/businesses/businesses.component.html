@@ -1,9 +1,6 @@
 <div>
   <h2>{{ businesses.length }} Businesses</h2>
   <div *ngFor="let business of businesses">
-    <business
-      [business]="business"
-      (businessSelected)="businessSelectedHandler($event)"
-    ></business>
+    <business [business]="business"></business>
   </div>
 </div>

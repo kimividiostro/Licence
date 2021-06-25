@@ -105,6 +105,7 @@ export class BusinessesService {
 
   public selectBussines(id:number):void{
     this.selectedBusinessId = id;
+    this.businessSelected.emit(id);
   }
 
   // Simulira citanje iz baze
